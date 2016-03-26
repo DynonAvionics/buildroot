@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-CAIRO_VERSION = 1.14.4
+CAIRO_VERSION = 1.14.6
 CAIRO_SOURCE = cairo-$(CAIRO_VERSION).tar.xz
 CAIRO_LICENSE = LGPLv2.1+
 CAIRO_LICENSE_FILES = COPYING
@@ -18,7 +18,7 @@ endif
 
 # cairo can use C++11 atomics when available, so we need to link with
 # libatomic for the architectures who need libatomic.
-ifeq ($(BR2_TOOLCHAIN_GCC_AT_LEAST_4_8),y)
+ifeq ($(BR2_TOOLCHAIN_HAS_LIBATOMIC),y)
 CAIRO_CONF_ENV += LIBS="-latomic"
 endif
 
