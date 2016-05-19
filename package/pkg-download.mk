@@ -171,7 +171,8 @@ define DOWNLOAD_WGET
 		-H $(PKGDIR)/$($(PKG)_RAWNAME).hash \
 		$(QUIET) \
 		-- \
-		'$(call qstrip,$(1))'
+		'$(call qstrip,$(1))' \
+		$($(PKG)_DL_REFERER)
 endef
 
 define SOURCE_CHECK_WGET

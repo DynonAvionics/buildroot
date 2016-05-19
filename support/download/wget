@@ -22,6 +22,7 @@ shift $((OPTIND-1))
 
 output="${1}"
 url="${2}"
+referer="${3}"
 
 # Caller needs to single-quote its arguments to prevent them from
 # being expanded a second time (in case there are spaces in them)
@@ -29,4 +30,9 @@ _wget() {
     eval ${WGET} "${@}"
 }
 
-_wget ${verbose} -O "'${output}'" "'${url}'"
+if [[ "$referer" != '' ]]
+then
+	referer_opt="--referer='${referer}'"
+fi
+
+_wget ${verbose} "${referer_opt}" -O "'${output}'" "'${url}'"
