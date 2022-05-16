@@ -19,6 +19,18 @@ else
 PSPLASH_CONF_OPTS += --without-systemd
 endif
 
+ifeq ($(BR2_PACKAGE_PSPLASH_FULL_SCREEN),y)
+PSPLASH_CONF_OPTS += --enable-img-fullscreen
+endif
+
+ifeq ($(BR2_PACKAGE_PSPLASH_NO_STARTUP_MSG),y)
+PSPLASH_CONF_OPTS += --disable-startup-msg
+endif
+
+ifeq ($(BR2_PACKAGE_PSPLASH_NO_PROGRESS_BAR),y)
+PSPLASH_CONF_OPTS += --disable-progress-bar
+endif
+
 PSPLASH_IMAGE = $(call qstrip,$(BR2_PACKAGE_PSPLASH_IMAGE))
 
 ifneq ($(PSPLASH_IMAGE),)
