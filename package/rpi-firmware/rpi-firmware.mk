@@ -65,18 +65,42 @@ define RPI_FIRMWARE_INSTALL_TARGET_LIB
 		$(TARGET_DIR)/usr/lib/libvcos.so
 	$(INSTALL) -D -m 0644 $(@D)/$(if BR2_ARM_EABIHF,hardfp/)opt/vc/lib/libdebug_sym.so \
 		$(TARGET_DIR)/usr/lib/libdebug_sym.so
+
 endef
 endif
 
 ifeq ($(BR2_PACKAGE_RPI_FIRMWARE_INSTALL_VCDBG),y)
-define RPI_FIRMWARE_INSTALL_TARGET_CMDS
+define RPI_FIRMWARE_INSTALL_VCDBG
 	$(INSTALL) -D -m 0700 $(@D)/$(if BR2_ARM_EABIHF,hardfp/)opt/vc/bin/vcdbg \
 		$(TARGET_DIR)/usr/sbin/vcdbg
 	$(INSTALL) -D -m 0644 $(@D)/$(if BR2_ARM_EABIHF,hardfp/)opt/vc/lib/libelftoolchain.so \
 		$(TARGET_DIR)/usr/lib/libelftoolchain.so
+	$(INSTALL) -D -m 0644 $(@D)/$(if BR2_ARM_EABIHF,hardfp/)opt/vc/lib/libvchiq_arm.so \
+		$(TARGET_DIR)/usr/lib/libvchiq_arm.so
+	$(INSTALL) -D -m 0644 $(@D)/$(if BR2_ARM_EABIHF,hardfp/)opt/vc/lib/libbcm_host.so \
+		$(TARGET_DIR)/usr/lib/libbcm_host.so
 	$(RPI_FIRMWARE_INSTALL_TARGET_LIB)
 endef
+RPI_FIRMWARE_INSTALL_TARGET_CMDS += $(RPI_FIRMWARE_INSTALL_VCDBG)
 endif # INSTALL_VCDBG
+
+ifeq ($(BR2_PACKAGE_RPI_FIRMWARE_INSTALL_VCGENCMD),y)
+define RPI_FIRMWARE_INSTALL_VCGENCMD
+	$(INSTALL) -D -m 0700 $(@D)/$(if BR2_ARM_EABIHF,hardfp/)opt/vc/bin/vcgencmd \
+		$(TARGET_DIR)/usr/sbin/vcgencmd
+	$(RPI_FIRMWARE_INSTALL_TARGET_LIB)
+endef
+RPI_FIRMWARE_INSTALL_TARGET_CMDS += $(RPI_FIRMWARE_INSTALL_VCGENCMD)
+endif # INSTALL_VCGENCMD
+
+ifeq ($(BR2_PACKAGE_RPI_FIRMWARE_INSTALL_TVSERVICE),y)
+define RPI_FIRMWARE_INSTALL_TVSERVICE
+	$(INSTALL) -D -m 0700 $(@D)/$(if BR2_ARM_EABIHF,hardfp/)opt/vc/bin/tvservice \
+		$(TARGET_DIR)/usr/sbin/tvservice
+	$(RPI_FIRMWARE_INSTALL_TARGET_LIB)
+endef
+RPI_FIRMWARE_INSTALL_TARGET_CMDS += $(RPI_FIRMWARE_INSTALL_TVSERVICE)
+endif # INSTALL_TVSERVICE
 
 define RPI_FIRMWARE_INSTALL_IMAGES_CMDS
 	$(INSTALL) -D -m 0644 package/rpi-firmware/cmdline.txt $(BINARIES_DIR)/rpi-firmware/cmdline.txt
