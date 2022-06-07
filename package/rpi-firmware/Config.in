@@ -108,6 +108,23 @@ config BR2_PACKAGE_RPI_FIRMWARE_INSTALL_VCDBG
 	help
 	  Install vcdbg, to help debug communication with the GPU.
 
+config BR2_PACKAGE_RPI_FIRMWARE_INSTALL_VCGENCMD
+	bool "vcgencmd"
+	depends on BR2_arm # prebuilt arm binary, rpi-userland
+	depends on BR2_TOOLCHAIN_USES_GLIBC
+	depends on BR2_INSTALL_LIBSTDCPP # rpi-userland
+	help
+	  Install vcgencmd, to get various pieces of information from the VideoCore GPU.
+
+
+config BR2_PACKAGE_RPI_FIRMWARE_INSTALL_TVSERVICE
+	bool "tvservice"
+	depends on BR2_arm # prebuilt arm binary, rpi-userland
+	depends on BR2_TOOLCHAIN_USES_GLIBC
+	depends on BR2_INSTALL_LIBSTDCPP # rpi-userland
+	help
+	  Install tvservice, to extract edid information from the screen.
+
 comment "vcdbg needs a glibc toolchain w/ C++"
 	depends on BR2_arm
 	depends on !BR2_TOOLCHAIN_USES_GLIBC || !BR2_INSTALL_LIBSTDCPP
