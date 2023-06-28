@@ -26,7 +26,7 @@ menuconfig BR2_PACKAGE_SYSTEMD
 	depends on BR2_TOOLCHAIN_GCC_AT_LEAST_5
 	depends on BR2_HOST_GCC_AT_LEAST_5 # host-systemd
 	select BR2_PACKAGE_HAS_UDEV
-	select BR2_PACKAGE_DBUS # runtime dependency only
+	select BR2_PACKAGE_DBUS if !BR2_PACKAGE_DBUS_BROKER # runtime
 	select BR2_PACKAGE_LIBCAP
 	select BR2_PACKAGE_UTIL_LINUX
 	select BR2_PACKAGE_UTIL_LINUX_LIBS
@@ -517,6 +517,26 @@ config BR2_PACKAGE_SYSTEMD_USERDB
 	  compatibility.
 
 	  https://www.freedesktop.org/software/systemd/man/systemd-userdbd.service.html
+
+config BR2_PACKAGE_SYSTEMD_UTMP
+	bool "enable utmp support"
+	help
+	  systemd-update-utmp-runlevel.service is a service that writes
+	  SysV runlevel changes to utmp and wtmp, as well as the audit
+	  logs, as they occur.  systemd-update-utmp.service does the
+	  same for system reboots and shutdown requests.
+
+	  https://www.freedesktop.org/software/systemd/man/systemd-update-utmp.service.html
+
+	  Utmp keeps track of what users do on the system (where they
+	  logged from, on which terminal, ...) along with a general
+	  status of the system (list of reboots, current uptime, current
+	  number of users logged in).
+
+	  You should only enable this if your system will have actual
+	  users who log in.
+
+	  https://man7.org/linux/man-pages/man5/utmp.5.html
 
 config BR2_PACKAGE_SYSTEMD_VCONSOLE
 	bool "enable vconsole tool"

@@ -4,7 +4,9 @@
 #
 ################################################################################
 
-RUST_VERSION = 1.60.0
+# When updating this version, check whether support/download/cargo-post-process
+# still generates the same archives.
+RUST_VERSION = 1.66.1
 RUST_SOURCE = rustc-$(RUST_VERSION)-src.tar.xz
 RUST_SITE = https://static.rust-lang.org/dist
 RUST_LICENSE = Apache-2.0 or MIT

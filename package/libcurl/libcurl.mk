@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBCURL_VERSION = 7.83.1
+LIBCURL_VERSION = 7.87.0
 LIBCURL_SOURCE = curl-$(LIBCURL_VERSION).tar.xz
 LIBCURL_SITE = https://curl.se/download
 LIBCURL_DEPENDENCIES = host-pkgconf \
@@ -23,13 +23,23 @@ LIBCURL_INSTALL_STAGING = YES
 # Likewise, there is no compiler on the target, so libcurl-option (to
 # generate C code) isn't very useful
 LIBCURL_CONF_OPTS = --disable-manual --disable-ntlm-wb \
-	--enable-hidden-symbols --with-random=/dev/urandom --disable-curldebug \
+	--with-random=/dev/urandom --disable-curldebug \
 	--disable-libcurl-option --disable-ldap --disable-ldaps
 
 ifeq ($(BR2_TOOLCHAIN_HAS_THREADS),y)
 LIBCURL_CONF_OPTS += --enable-threaded-resolver
 else
 LIBCURL_CONF_OPTS += --disable-threaded-resolver
+endif
+
+ifeq ($(BR2_TOOLCHAIN_HAS_LIBATOMIC),y)
+LIBCURL_CONF_OPTS += LIBS=-latomic
+endif
+
+ifeq ($(BR2_TOOLCHAIN_HAS_SYNC_1),)
+# Even though stdatomic.h does exist, link fails for __atomic_exchange_1
+# Work around this by pretending atomics aren't available.
+LIBCURL_CONF_ENV += ac_cv_header_stdatomic_h=no
 endif
 
 ifeq ($(BR2_PACKAGE_LIBCURL_VERBOSE),y)
@@ -40,6 +50,10 @@ endif
 
 LIBCURL_CONFIG_SCRIPTS = curl-config
 
+ifeq ($(BR2_PACKAGE_LIBCURL_TLS_NONE),y)
+LIBCURL_CONF_OPTS += --without-ssl
+endif
+
 ifeq ($(BR2_PACKAGE_LIBCURL_OPENSSL),y)
 LIBCURL_DEPENDENCIES += openssl
 # configure adds the cross openssl dir to LD_LIBRARY_PATH which screws up
@@ -47,10 +61,10 @@ LIBCURL_DEPENDENCIES += openssl
 # Fix it by setting LD_LIBRARY_PATH to something sensible so those libs
 # are found first.
 LIBCURL_CONF_ENV += LD_LIBRARY_PATH=$(if $(LD_LIBRARY_PATH),$(LD_LIBRARY_PATH):)/lib:/usr/lib
-LIBCURL_CONF_OPTS += --with-ssl=$(STAGING_DIR)/usr \
+LIBCURL_CONF_OPTS += --with-openssl=$(STAGING_DIR)/usr \
 	--with-ca-path=/etc/ssl/certs
 else
-LIBCURL_CONF_OPTS += --without-ssl
+LIBCURL_CONF_OPTS += --without-openssl
 endif
 
 ifeq ($(BR2_PACKAGE_LIBCURL_BEARSSL),y)
@@ -77,6 +91,7 @@ endif
 
 ifeq ($(BR2_PACKAGE_LIBCURL_WOLFSSL),y)
 LIBCURL_CONF_OPTS += --with-wolfssl=$(STAGING_DIR)/usr
+LIBCURL_CONF_OPTS += --with-ca-bundle=/etc/ssl/certs/ca-certificates.crt
 LIBCURL_DEPENDENCIES += wolfssl
 else
 LIBCURL_CONF_OPTS += --without-wolfssl
@@ -173,17 +188,4 @@ endef
 LIBCURL_POST_INSTALL_TARGET_HOOKS += LIBCURL_TARGET_CLEANUP
 endif
 
-HOST_LIBCURL_DEPENDENCIES = host-openssl
-HOST_LIBCURL_CONF_OPTS = \
-	--disable-manual \
-	--disable-ntlm-wb \
-	--disable-curldebug \
-	--with-ssl \
-	--without-gnutls \
-	--without-mbedtls \
-	--without-nss
-
-HOST_LIBCURL_POST_PATCH_HOOKS += LIBCURL_FIX_DOT_PC
-
 $(eval $(autotools-package))
-$(eval $(host-autotools-package))

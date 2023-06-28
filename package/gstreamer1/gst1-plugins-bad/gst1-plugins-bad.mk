@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-GST1_PLUGINS_BAD_VERSION = 1.20.1
+GST1_PLUGINS_BAD_VERSION = 1.22.0
 GST1_PLUGINS_BAD_SOURCE = gst-plugins-bad-$(GST1_PLUGINS_BAD_VERSION).tar.xz
 GST1_PLUGINS_BAD_SITE = https://gstreamer.freedesktop.org/src/gst-plugins-bad
 GST1_PLUGINS_BAD_INSTALL_STAGING = YES
@@ -743,6 +743,16 @@ GST1_PLUGINS_BAD_CONF_OPTS += -Duvch264=enabled
 GST1_PLUGINS_BAD_DEPENDENCIES += libgudev libusb
 else
 GST1_PLUGINS_BAD_CONF_OPTS += -Duvch264=disabled
+endif
+
+ifeq ($(BR2_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_VA),y)
+GST1_PLUGINS_BAD_CONF_OPTS += -Dva=enabled
+GST1_PLUGINS_BAD_DEPENDENCIES += libva
+ifeq ($(BR2_PACKAGE_LIBDRM),y)
+GST1_PLUGINS_BAD_DEPENDENCIES += libdrm
+endif
+else
+GST1_PLUGINS_BAD_CONF_OPTS += -Dva=disabled
 endif
 
 ifeq ($(BR2_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_VOAACENC),y)

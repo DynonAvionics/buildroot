@@ -7,7 +7,7 @@
 # Generate version string using:
 #   git describe --match 'glibc-*' --abbrev=40 origin/release/MAJOR.MINOR/master | cut -d '-' -f 2-
 # When updating the version, please also update localedef
-GLIBC_VERSION = 2.35-6-g491f2ef1f0ff849490f374917957018d07ee0586
+GLIBC_VERSION = 2.36-81-g4f4d7a13edfd2fdc57c9d76e1fd6d017fb47550c
 # Upstream doesn't officially provide an https download link.
 # There is one (https://sourceware.org/git/glibc.git) but it's not reliable,
 # sometimes the connection times out. So use an unofficial github mirror.
@@ -115,6 +115,16 @@ endif
 GLIBC_CFLAGS = $(TARGET_OPTIMIZATION)
 # crash in qemu-system-nios2 with -Os
 ifeq ($(BR2_nios2),y)
+GLIBC_CFLAGS += -O2
+endif
+
+# glibc can't be built without optimization
+ifeq ($(BR2_OPTIMIZE_0),y)
+GLIBC_CFLAGS += -O1
+endif
+
+# glibc can't be built with Optimize for fast
+ifeq ($(BR2_OPTIMIZE_FAST),y)
 GLIBC_CFLAGS += -O2
 endif
 

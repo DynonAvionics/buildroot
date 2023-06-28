@@ -31,8 +31,8 @@ config BR2_PACKAGE_UDISKS
 	     interfaces that can be used to query and manipulate
 	     storage devices.
 
-	   o a command-line tool, udisks(1), that can be used to query
-	     and use the daemon
+	   o a command-line tool, udisksctl(1), that can be used to
+	     query and use the daemon
 
 	  http://www.freedesktop.org/wiki/Software/udisks
 
@@ -49,3 +49,13 @@ comment "udisks needs a toolchain with dynamic library, locale, wchar, threads, 
 
 comment "udisks can't be built with Optimize for fast"
 	depends on BR2_OPTIMIZE_FAST
+
+if BR2_PACKAGE_UDISKS
+
+config BR2_PACKAGE_UDISKS_FHS_MEDIA
+	bool "Mount devices in /media instead of /run/media"
+	help
+	  Support mounting in /media for compatibility with the
+	  Filesystem Hierarchy Standard (FHS)
+
+endif

@@ -46,15 +46,6 @@ case ":${PATH:-unset}:" in
 	;;
 esac
 
-if test -n "$PERL_MM_OPT" ; then
-	echo
-	echo "You have PERL_MM_OPT defined because Perl local::lib"
-	echo "is installed on your system. Please unset this variable"
-	echo "before starting Buildroot, otherwise the compilation of"
-	echo "Perl related packages will fail"
-	exit 1
-fi
-
 check_prog_host()
 {
 	prog="$1"
@@ -163,7 +154,7 @@ fi
 
 # Check that a few mandatory programs are installed
 missing_progs="no"
-for prog in perl tar wget cpio unzip rsync bc ${DL_TOOLS} ; do
+for prog in perl tar wget cpio unzip rsync bc cmp find xargs ${DL_TOOLS} ; do
 	if ! which $prog > /dev/null ; then
 		echo "You must install '$prog' on your build machine";
 		missing_progs="yes"
@@ -175,6 +166,12 @@ for prog in perl tar wget cpio unzip rsync bc ${DL_TOOLS} ; do
 			echo "  zcat is usually part of the gzip package in your distribution"
 		elif test $prog = "bzcat" ; then
 			echo "  bzcat is usually part of the bzip2 package in your distribution"
+		elif test $prog = "cmp" ; then
+			echo "  cmp is usually part of the diffutils package in your distribution"
+		elif test $prog = "find" ; then
+			echo "  find is usually part of the findutils package in your distribution"
+		elif test $prog = "xargs" ; then
+			echo "  xargs is usually part of the findutils package in your distribution"
 		fi
 	fi
 done
@@ -271,6 +268,7 @@ fi
 required_perl_modules="Data::Dumper" # Needed to build host-autoconf
 required_perl_modules="$required_perl_modules ExtUtils::MakeMaker" # Used by host-libxml-parser-perl
 required_perl_modules="$required_perl_modules Thread::Queue" # Used by host-automake
+required_perl_modules="$required_perl_modules FindBin" # Used by (host-)libopenssl
 
 if grep -q ^BR2_PACKAGE_MPV=y $BR2_CONFIG ; then
     required_perl_modules="$required_perl_modules Math::BigInt"

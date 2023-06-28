@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+set -o pipefail
 
 . "${0%/*}/helpers"
 
@@ -22,17 +23,16 @@ post_process_unpack "${base_name}" "${output}"
 
 # Do the Cargo vendoring
 pushd "${base_name}" > /dev/null
-cargo vendor --manifest-path ${BR_CARGO_MANIFEST_PATH-Cargo.toml} --locked VENDOR
 
 # Create the local .cargo/config with vendor info
 mkdir -p .cargo/
-cat <<EOF >.cargo/config
-[source.crates-io]
-replace-with = "vendored-sources"
+mkdir -p "${CARGO_HOME}"
+flock "${CARGO_HOME}"/.br-lock \
+cargo vendor \
+    --manifest-path ${BR_CARGO_MANIFEST_PATH-Cargo.toml} \
+    --locked VENDOR \
+    | tee .cargo/config
 
-[source.vendored-sources]
-directory = "VENDOR"
-EOF
 popd > /dev/null
 
 post_process_repack "$(pwd)" "${base_name}" "${output}"
