@@ -400,8 +400,8 @@ sha256  5107c9a89a2162393c95d9aa63ea1c85892ea9cb1393556110af844f147f8bad  x86-co
 sha256  ce9bed3cc5d21f3b12b7780783b32498beae186e0693f57884d0cffff13d445f  x86-core2--uclibc--stable-2022.08-1.tar.bz2
 # From https://toolchains.bootlin.com/downloads/releases/toolchains/x86-i686/tarballs/x86-i686--glibc--bleeding-edge-2022.08-1.sha256
 sha256  6eda31bf8c4504f322e1e2689beb7172f831400061168a03c0c16956a777a806  x86-i686--glibc--bleeding-edge-2022.08-1.tar.bz2
-# From https://toolchains.bootlin.com/downloads/releases/toolchains/x86-i686/tarballs/x86-i686--glibc--stable-2022.08-1.sha256
-sha256  6364eb674e5594947cc658bd7ff4928624eb03a20469395a0be93761a804723b  x86-i686--glibc--stable-2022.08-1.tar.bz2
+# From https://toolchains.bootlin.com/downloads/releases/toolchains/x86-i686/tarballs/x86-i686--glibc--stable-2023.11-1.sha256
+sha256  13afd0f9b7fd7e3c1c598b294494e23ddacb39df23e30a999fbadff31a97c514  x86-i686--glibc--stable-2023.11-1.tar.bz2
 # From https://toolchains.bootlin.com/downloads/releases/toolchains/x86-i686/tarballs/x86-i686--musl--bleeding-edge-2022.08-1.sha256
 sha256  fd94a3905991bab90e5474e7407e6b593222e44947e70e9d0061f393ab420b0d  x86-i686--musl--bleeding-edge-2022.08-1.tar.bz2
 # From https://toolchains.bootlin.com/downloads/releases/toolchains/x86-i686/tarballs/x86-i686--musl--stable-2022.08-1.sha256
