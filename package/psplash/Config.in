@@ -29,11 +29,26 @@ config BR2_PACKAGE_PSPLASH
 
 if BR2_PACKAGE_PSPLASH
 
-config BR2_PACKAGE_PSPLASH_IMAGE
-	string "psplash image"
-	help
-	  Use a personalized png image as boot splash.
-	  Let it empty if you want to keep the psplash default image.
+	config BR2_PACKAGE_PSPLASH_IMAGE
+		string "psplash image"
+		help
+			Use a personalized png image as boot splash.
+			Let it empty if you want to keep the psplash default image.
+
+	config BR2_PACKAGE_PSPLASH_FULL_SCREEN
+		bool "use fullscreen mode"
+		help
+			Enable the psplash image in fullscreen mode.
+
+	config BR2_PACKAGE_PSPLASH_NO_STARTUP_MSG
+		bool "disable startup message"
+		help
+			Disable text banner output on startup.
+
+	config BR2_PACKAGE_PSPLASH_NO_PROGRESS_BAR
+		bool "disable progress bar"
+		help
+			Disable the management of the progress bar.
 
 endif
 
