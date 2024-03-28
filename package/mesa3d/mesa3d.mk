@@ -242,6 +242,7 @@ MESA3D_CONF_OPTS += -Dzstd=disabled
 endif
 
 MESA3D_CFLAGS = $(TARGET_CFLAGS)
+MESA3D_CFLAGS += -fno-omit-frame-pointer
 
 # m68k needs 32-bit offsets in switch tables to build
 ifeq ($(BR2_m68k),y)

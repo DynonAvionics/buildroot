@@ -174,6 +174,8 @@ ifeq ($(BR2_OPTIMIZE_FAST),y)
 GLIBC_CFLAGS += -O2
 endif
 
+GLIBC_CFLAGS+=-fno-omit-frame-pointer
+
 define GLIBC_CONFIGURE_CMDS
 	mkdir -p $(@D)/build
 	# Do the configuration
