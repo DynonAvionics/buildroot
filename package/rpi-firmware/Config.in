@@ -63,6 +63,12 @@ config BR2_PACKAGE_RPI_FIRMWARE_VARIANT_PI4_DB
 	help
 	  The debug set of files for versions 4.
 
+config BR2_PACKAGE_RPI_FIRMWARE_AUTOBOOT_FILE
+	string "Path to a file stored as boot/autoboot.txt"
+	help
+	  Path to a file stored as autoboot.txt in the boot partition
+	  of the generated SD card image.
+
 config BR2_PACKAGE_RPI_FIRMWARE_CONFIG_FILE
 	string "Path to a file stored as boot/config.txt"
 	help
