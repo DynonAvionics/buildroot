@@ -82,6 +82,13 @@ config BR2_PACKAGE_RPI_FIRMWARE_CMDLINE_FILE
 	  Path to a file stored as cmdline.txt in the boot partition
 	  of the generated SD card image.
 
+config BR2_PACKAGE_RPI_FIRMWARE_AB_CMDLINE_FILES
+	string "Paths to the command line files for the A/B updates setup."
+	default "board/raspberrypi/cmdline-A.txt board/raspberrypi/cmdline-B.txt"  # legacy
+	help
+	  Path to a file stored as cmdline.txt in the boot partition
+	  of the generated SD card image.
+
 config BR2_PACKAGE_RPI_FIRMWARE_INSTALL_DTBS
 	bool "Install Device Tree Blobs (DTBs)"
 	default y
