@@ -69,6 +69,11 @@ config BR2_PACKAGE_RPI_FIRMWARE_AUTOBOOT_FILE
 	  Path to a file stored as autoboot.txt in the boot partition
 	  of the generated SD card image.
 
+config BR2_PACKAGE_RPI_FIRMWARE_AB_AUTOBOOT_FILES
+	string "Paths to the autoboot files for the A/B updates setup."
+	help
+	  Space-separated paths to files stored in the boot partition of the generated SD card image.
+
 config BR2_PACKAGE_RPI_FIRMWARE_CONFIG_FILE
 	string "Path to a file stored as boot/config.txt"
 	help
