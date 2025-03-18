@@ -68,6 +68,16 @@ config BR2_PACKAGE_RPI_FIRMWARE_AUTOBOOT_FILE
 	help
 	  Path to a file stored as autoboot.txt in the boot partition
 	  of the generated SD card image.
+          This option will be overriden by BR2_PACKAGE_RPI_FIRMWARE_AB_AUTOBOOT_FILES
+
+config BR2_PACKAGE_RPI_FIRMWARE_AB_AUTOBOOT_FILES
+	string "Paths to the autoboot files for the A/B updates setup."
+	depends on !BR2_PACKAGE_RPI_FIRMWARE_AUTOBOOT_FILE
+	help
+	  Space-separated paths to files stored as autoboot.txt and autoboot_alt.txt
+	  in the boot partition of the generated SD card image. Only the first 2
+	  values will be taken into account.
+          This option will override BR2_PACKAGE_RPI_FIRMWARE_AUTOBOOT_FILE
 
 config BR2_PACKAGE_RPI_FIRMWARE_CONFIG_FILE
 	string "Path to a file stored as boot/config.txt"
