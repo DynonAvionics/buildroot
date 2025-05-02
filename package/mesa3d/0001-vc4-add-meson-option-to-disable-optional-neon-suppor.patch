@@ -1,6 +1,6 @@
-From f719e942dde0a46a9ff0080001cb3466012ffcc0 Mon Sep 17 00:00:00 2001
-From: Peter Seiderer <ps.report@gmx.net>
-Date: Mon, 9 Mar 2020 13:01:14 +0100
+From d0625067c7a5c7a9fcb855b1bdffb3e2e82affe0 Mon Sep 17 00:00:00 2001
+From: Olivier Benjamin <olivier.benjamin@bootlin.com>
+Date: Fri, 2 May 2025 14:51:04 +0200
 Subject: [PATCH] vc4: add meson option to disable optional neon support
 
 Not all toolchains are able to compile the runtime
@@ -20,10 +20,10 @@ Signed-off-by: Peter Seiderer <ps.report@gmx.net>
  3 files changed, 11 insertions(+), 4 deletions(-)
 
 diff --git a/meson_options.txt b/meson_options.txt
-index 8e0bf2a..1cf0e07 100644
+index 0147cafcb14..c75ed0a01c6 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -124,6 +124,13 @@ option(
+@@ -117,6 +117,13 @@ option(
    description : 'enable gallium va frontend.',
  )
  
@@ -38,21 +38,21 @@ index 8e0bf2a..1cf0e07 100644
    'va-libs-path',
    type : 'string',
 diff --git a/src/gallium/drivers/vc4/meson.build b/src/gallium/drivers/vc4/meson.build
-index 84da951..7f950de 100644
+index 54b165d69db..8398715bf39 100644
 --- a/src/gallium/drivers/vc4/meson.build
 +++ b/src/gallium/drivers/vc4/meson.build
-@@ -84,7 +84,7 @@ files_libvc4 = files(
- vc4_c_args = []
+@@ -72,7 +72,7 @@ vc4_deps = [
+ ]
  
  libvc4_neon = []
 -if host_machine.cpu_family() == 'arm'
 +if host_machine.cpu_family() == 'arm' and not get_option('gallium-vc4-neon').disabled()
    libvc4_neon = static_library(
      'vc4_neon',
-     'vc4_tiling_lt_neon.c',
-@@ -93,7 +93,7 @@ if host_machine.cpu_family() == 'arm'
-     ],
-     c_args : '-mfpu=neon',
+     'vc4_tiling_lt.c',
+@@ -82,7 +82,7 @@ if host_machine.cpu_family() == 'arm'
+     c_args : ['-mfpu=neon', '-DV3D_BUILD_NEON'],
+     dependencies : vc4_deps,
    )
 -  vc4_c_args += '-DUSE_ARM_ASM'
 +  vc4_c_args += '-DVC4_TILING_LT_NEON'
@@ -60,7 +60,7 @@ index 84da951..7f950de 100644
  
  if dep_simpenrose.found()
 diff --git a/src/gallium/drivers/vc4/vc4_tiling.h b/src/gallium/drivers/vc4/vc4_tiling.h
-index 5afe329..919b299 100644
+index 5afe32939a8..919b2990ab1 100644
 --- a/src/gallium/drivers/vc4/vc4_tiling.h
 +++ b/src/gallium/drivers/vc4/vc4_tiling.h
 @@ -89,7 +89,7 @@ vc4_load_lt_image(void *dst, uint32_t dst_stride,
@@ -82,5 +82,5 @@ index 5afe329..919b299 100644
                  vc4_store_lt_image_neon(dst, dst_stride, src, src_stride,
                                          cpp, box);
 -- 
-2.41.0
+2.43.0
 
